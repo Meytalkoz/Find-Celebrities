@@ -2,3 +2,40 @@
 // 2. Returns a link to the celebrity's instagram to index.js
 // 3. Write the name of the celebrity to the DB / Storage
 // 4. Returns a list of all the celebrities names from the DB 
+
+var https = require('https'),
+   fetch = require('node-fetch');
+
+const CELEBRITY_NAME = "celebrityName";
+const SUBSCRIPTION_KEY = "f67c6a721a8643db8cccda135a0bb7bb";
+
+
+async function parseUrl(url) {
+    let urlParts = url.split('&');
+    for (urlPart in urlParts) {
+        let part = urlParts[urlPart];
+        if (part.includes(CELEBRITY_NAME)) {
+            let celebrityNameParts = part.split('=');
+            console.log(celebrityNameParts[1]);
+            return await searchCelebrityInstagram(celebrityNameParts[1]);            
+        }
+    }
+}
+
+exports.parseUrl = parseUrl;
+
+async function searchCelebrityInstagram(celebrityName) {
+
+    const url = "https://api.cognitive.microsoft.com/bing/v7.0/search?q=" + encodeURIComponent(celebrityName) + " instagram";   
+
+    const response = await fetch(url, {
+        method: 'get',
+        headers: { "Ocp-Apim-Subscription-Key": SUBSCRIPTION_KEY },
+    });
+
+    console.log('\nJSON Response:\n');
+    let jsonResponse = await response.json();
+    let instagramLink = jsonResponse.webPages.value[0].url;
+    console.log(instagramLink);
+    return instagramLink;
+}
