@@ -1,14 +1,14 @@
-// 1. Get an event from index.js when the user is searching for a celebrity- and search for the celebrity's instagram using bing API
-// 2. Returns a link to the celebrity's instagram to index.js
-// 3. Write the name of the celebrity to the DB / Storage
-// 4. Returns a list of all the celebrities names from the DB 
+/* Responsible for the searches using bing API
+ * - Parse the url to find the celebrity name
+ * - Search for the celebrity's instagram using bing API */
 
 var https = require('https'),
     fetch = require('node-fetch'),
-    storageModel = require('./azureStorageHandler');
+    storageModel = require('./azureDBHandler');
 
 
 const CELEBRITY_NAME = "celebrityName";
+const INSTAGRAM = "instagram";
 const SUBSCRIPTION_KEY = "f67c6a721a8643db8cccda135a0bb7bb";
 
 
@@ -27,11 +27,9 @@ async function parseUrl(url) {
     }
 }
 
-exports.parseUrl = parseUrl;
-
 async function searchCelebrityInstagram(celebrityName) {
 
-    const url = "https://api.cognitive.microsoft.com/bing/v7.0/search?q=" + encodeURIComponent(celebrityName) + " instagram";   
+    const url = "https://api.cognitive.microsoft.com/bing/v7.0/search?q=" + encodeURIComponent(celebrityName) + INSTAGRAM;   
 
     const response = await fetch(url, {
         method: 'get',
@@ -43,10 +41,12 @@ async function searchCelebrityInstagram(celebrityName) {
     let instagramLink;
     for (webPage of jsonResponse.webPages.value) {
         instagramLink = webPage.url;
-        if (instagramLink.includes("instagram")) {
+        if (instagramLink.includes(INSTAGRAM)) {
             break;
         }
     }
     console.log(instagramLink);
     return instagramLink;
 }
+
+module.exports = { parseUrl };

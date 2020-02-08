@@ -1,7 +1,7 @@
 var https = require('http'),
     fs = require('fs'),
     celebrityModel = require('./bingSearchHandler'),
-    storageModel = require('./azureStorageHandler');
+    storageModel = require('./azureDBHandler');
 
 fs.readFile('../index.html', function (err, html) {
     if (err) {
