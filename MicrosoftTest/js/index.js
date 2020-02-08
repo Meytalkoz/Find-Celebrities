@@ -1,6 +1,7 @@
 var https = require('http'),
     fs = require('fs'),
-    celebrityModel = require('./celebritiesModel');
+    celebrityModel = require('./celebritiesModel'),
+    storageModel = require('./azureStorageModel');
 
 fs.readFile('../index.html', function (err, html) {
     if (err) {
@@ -18,10 +19,27 @@ async function responseToClient(request, response, html) {
     if (request && request.url && request.url.includes("celebrityName")) {
         instagramLink = await celebrityModel.parseUrl(request.url);
     }
-    if (instagramLink) {
-        
-    }
     response.write(html);
-    response.end();
-    console.log("finished html serving")
+    if (instagramLink) {
+        response.write(`<a href='${instagramLink}' target='_blank' >Celebrity's Instagram Page </a>`);
+    }
+
+    //request celebs
+    storageModel.getAllSearches(function (error, result, dbResponse) {
+        if (!error) {            
+            // query was successful
+            response.write("<ul>");
+            for (const entity of result.entries.reverse()) {
+                response.write("<li>");
+                console.log(entity.celebrityName._)
+                response.write(entity.celebrityName._);
+                response.write("</li>");
+            }
+            response.write("</ul>");          
+        }
+
+        response.write("</div></body></html>");
+        response.end();
+        console.log("finished html serving")
+    });
 }

@@ -4,7 +4,9 @@
 // 4. Returns a list of all the celebrities names from the DB 
 
 var https = require('https'),
-   fetch = require('node-fetch');
+    fetch = require('node-fetch'),
+    storageModel = require('./azureStorageModel');
+
 
 const CELEBRITY_NAME = "celebrityName";
 const SUBSCRIPTION_KEY = "f67c6a721a8643db8cccda135a0bb7bb";
@@ -16,8 +18,11 @@ async function parseUrl(url) {
         let part = urlParts[urlPart];
         if (part.includes(CELEBRITY_NAME)) {
             let celebrityNameParts = part.split('=');
-            console.log(celebrityNameParts[1]);
-            return await searchCelebrityInstagram(celebrityNameParts[1]);            
+            let celebrityName = celebrityNameParts[1];
+            celebrityName = celebrityName.replace('+', ' ');
+            storageModel.addToSearchesContainer(celebrityName);
+            console.log(celebrityName);
+            return await searchCelebrityInstagram(celebrityName);            
         }
     }
 }
