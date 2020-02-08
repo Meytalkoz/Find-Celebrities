@@ -5,7 +5,7 @@
 
 var https = require('https'),
     fetch = require('node-fetch'),
-    storageModel = require('./azureStorageModel');
+    storageModel = require('./azureStorageHandler');
 
 
 const CELEBRITY_NAME = "celebrityName";
@@ -40,7 +40,13 @@ async function searchCelebrityInstagram(celebrityName) {
 
     console.log('\nJSON Response:\n');
     let jsonResponse = await response.json();
-    let instagramLink = jsonResponse.webPages.value[0].url;
+    let instagramLink;
+    for (webPage of jsonResponse.webPages.value) {
+        instagramLink = webPage.url;
+        if (instagramLink.includes("instagram")) {
+            break;
+        }
+    }
     console.log(instagramLink);
     return instagramLink;
 }
