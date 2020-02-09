@@ -2,7 +2,7 @@
  * Index logic, contain all the app lifecycle. Defines port: 443 and protocol: https
  */
 
-var https = require('http'),
+var https = require('https'),
     fs = require('fs'),
     celebrityHandler = require('./bingSearchHandler'),
     storageHandler = require('./azureDBHandler'),
@@ -16,7 +16,7 @@ fs.readFile('../index.html', function (err, html) {
 
     https.createServer(function (request, response) {
         responseToClient(request, response, html);
-    }).listen(3000);
+    }).listen(443);
 
 });
 
