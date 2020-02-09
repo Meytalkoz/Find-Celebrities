@@ -12,7 +12,7 @@ const INSTAGRAM = "instagram";
 const SUBSCRIPTION_KEY = "f67c6a721a8643db8cccda135a0bb7bb";
 
 
-async function parseUrl(url) {
+async function getInstagramUrl(url) {
     let urlParts = url.split('&');
     for (urlPart in urlParts) {
         let part = urlParts[urlPart];
@@ -49,4 +49,6 @@ async function searchCelebrityInstagram(celebrityName) {
     return instagramLink;
 }
 
-module.exports = { parseUrl };
+module.exports = {
+    getInstagramUrl
+};
