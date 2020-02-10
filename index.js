@@ -9,7 +9,7 @@ var https = require('https'),
     UiHandler = require('./UiHandler');
 
 
-fs.readFile('../index.html', function (err, html) {
+fs.readFile('./index.html', function (err, html) {
     if (err) {
         throw err;
     }
