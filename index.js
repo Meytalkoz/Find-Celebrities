@@ -16,7 +16,7 @@ fs.readFile('./index.html', function (err, html) {
 
     https.createServer(function (request, response) {
         responseToClient(request, response, html);
-    }).listen(process.env.PORT || 443);
+    }).listen(443);
 
 });
 
