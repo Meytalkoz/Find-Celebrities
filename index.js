@@ -17,7 +17,7 @@ fs.readFile('./index.html', function (err, html) {
     https.createServer(function (request, response) {
         console.log(request);
         responseToClient(request, response, html);
-    }).listen(80);
+    }).listen(3000);
 
 });
 
