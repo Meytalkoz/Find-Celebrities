@@ -9,17 +9,15 @@ var https = require('https'),
     UiHandler = require('./UiHandler');
 
 
-fs.readFile('./index.html', function (err, html) {
-    if (err) {
-        throw err;
-    }
-
     https.createServer(function (request, response) {
-        console.log(request);
-        responseToClient(request, response, html);
+        fs.readFile('./index.html', function (err, html) {
+            if (err) {
+                throw err;
+            }
+            console.log(request);
+            responseToClient(request, response, html);
+        });
     }).listen(process.env.PORT || 80);
-
-});
 
 async function responseToClient(request, response, html) {
     response.writeHead(200, { "Content-Type": "text/html" });
