@@ -10,8 +10,10 @@ var https = require('http'),
 
 
     https.createServer(function (request, response) {
-        responseToClient(request, response, html);
-    }).listen(8080);
+//         responseToClient(request, response, html);
+        response.writeHead(200, { "Content-Type": "text/html" });
+        response.end();
+    }).listen(443);
 
 async function responseToClient(request, response, html) {
     response.writeHead(200, { "Content-Type": "text/html" });
