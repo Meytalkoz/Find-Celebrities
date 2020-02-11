@@ -1,23 +1,25 @@
 /*
- * Index logic, contain all the app lifecycle. Defines port: 443 and protocol: https
+ * Index logic, contain all the app lifecycle. Using express as server hadler
  */
 
-var https = require('https'),
-    fs = require('fs'),
+var fs = require('fs'),
+    express = require('express'),
     celebrityHandler = require('./bingSearchHandler'),
     storageHandler = require('./azureDBHandler'),
     UiHandler = require('./UiHandler');
 
 
-    https.createServer(function (request, response) {
+    const app = express()
+    const port = process.env.PORT || 80
+    app.get('/', (req, res) => {
         fs.readFile('./index.html', function (err, html) {
             if (err) {
                 throw err;
-            }
-            console.log(request);
-            responseToClient(request, response, html);
-        });
-    }).listen(process.env.PORT || 80);
+            }            
+            responseToClient(req, res, html);                   
+        });    
+    });
+    app.listen(port, () => console.log(`Server is listening on port: ${port}`))
 
 async function responseToClient(request, response, html) {
     response.writeHead(200, { "Content-Type": "text/html" });
