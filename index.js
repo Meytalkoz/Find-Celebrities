@@ -3,23 +3,23 @@
  */
 
 var fs = require('fs'),
-    express = require('express'),
+//     express = require('express'),
     celebrityHandler = require('./bingSearchHandler'),
     storageHandler = require('./azureDBHandler'),
     UiHandler = require('./UiHandler');
 
 
-    const app = express()
+//     const app = express()
     const port = process.env.PORT || 80
-    app.get('/', (req, res) => {
-        fs.readFile('./index.html', function (err, html) {
-            if (err) {
-                throw err;
-            }            
-            responseToClient(req, res, html);                   
-        });    
-    });
-    app.listen(port, () => console.log(`Server is listening on port: ${port}`))
+//     app.get('/', (req, res) => {
+//         fs.readFile('./index.html', function (err, html) {
+//             if (err) {
+//                 throw err;
+//             }            
+//             responseToClient(req, res, html);                   
+//         });    
+//     });
+//     app.listen(port, () => console.log(`Server is listening on port: ${port}`))
 
 async function responseToClient(request, response, html) {
     response.writeHead(200, { "Content-Type": "text/html" });
